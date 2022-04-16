@@ -1,0 +1,30 @@
+version: "3.9" 
+services:
+  web:
+    build: ./webserver
+    container_name: e_rekon_web
+    # restart: always
+    ports:
+      - "4000:80"
+    networks:
+      - e_rekon_network
+    volumes:
+      - ./webserver/code:/var/www/html
+      - ./webserver/log:/var/log
+  database:
+    image: postgres:14
+    container_name: e_rekon_db
+    restart: always
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./database/data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=syahid123
+      - POSTGRES_HOST_AUTH_METHOD=md5
+    networks:
+      - e_rekon_network
+networks:
+  e_rekon_network:
+
